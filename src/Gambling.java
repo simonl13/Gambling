@@ -9,7 +9,7 @@ public class Gambling {
 	static Random randomNumber = new Random();
 	static Money playerMoney = new Money();
 	
-	public static long bet(long balance) throws InterruptedException {
+	public static long bet() throws InterruptedException {
 		short number;
 		long wager;
 		long difference;
@@ -117,7 +117,7 @@ public class Gambling {
 		}
 	}
 
-	public static long cards(long balance) throws InterruptedException {
+	public static long cards() throws InterruptedException {
 		long difference = 0;
 		String suit;
 		String [] suitList = { "DIAMONDS", "CLOVERS", "HEARTS", "SPADES"};
@@ -194,7 +194,7 @@ public class Gambling {
 		}
 	}
 
-	public static long blackjack(long balance) throws InterruptedException {
+	public static long blackjack() throws InterruptedException {
 		System.out.println("Welcome to Blackjack!");
 		System.out.println("How much would you like to bet?");
 		long wager = playerInput.nextLong();

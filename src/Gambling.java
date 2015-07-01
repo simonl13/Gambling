@@ -7,15 +7,7 @@ public class Gambling {
 
 	static Scanner playerInput = new Scanner(System.in);
 	static Random randomNumber = new Random();
-	
-	public static long cheat() {
-		System.out.println("How much more money would you like to magically obtain?");
-		long cheatAmount = playerInput.nextLong();
-		System.out.println("Congratulations, you've inherited $" + cheatAmount + " from a mysterious death.");
-		
-		return cheatAmount;
-		//returns cheatAmount, added into balance later.
-	}
+	static Money playerMoney = new Money();
 	
 	public static long bet(long balance) throws InterruptedException {
 		short number;
@@ -111,9 +103,7 @@ public class Gambling {
 					playerInput.close();
 					System.exit(0);
 				case "cheat":
-					long cheatAmount = cheat();
-					balance += cheatAmount;
-					//adds cheatAmount from cheat(); to balance
+					playerMoney.cheatCash();
 					break;
 				case "numbers":
 					difference = bet(balance);

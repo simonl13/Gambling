@@ -210,7 +210,7 @@ public class Gambling {
 			int extra = 0;
 			int dealerTotal;
 			
-			cards[1] = new Cards();
+			/*cards[1] = new Cards();
 			cardAmount++;
 			
 			//make this automatic in the future.
@@ -233,7 +233,10 @@ public class Gambling {
 				cardValues[2] = cards[2].cardValue;
 				System.out.println("You drew a " + cards[cardAmount].card + ".");
 			}
+			*/
+			Player.playerStart();
 			
+			Player playerPerson = new Player();
 			Dealer dealerMan = new Dealer();
 			dealerTotal = dealerMan.dealerStart();
 			if (dealerTotal == 21) {
@@ -247,7 +250,7 @@ public class Gambling {
 					default:
 						System.out.println("Invalid command. Type \"help\" for commands.");
 						break;
-					case "ace":
+					/*case "ace":
 						if (aceAmount == 0) {
 							System.out.println("You have no Aces.");
 							break;
@@ -267,6 +270,7 @@ public class Gambling {
 								break;
 							}
 						}
+					*/
 					case "help":
 						System.out.println("Commands: help, hit, stay, total.");
 						break;
@@ -281,29 +285,28 @@ public class Gambling {
 							return wager;
 						}
 						else {
-							cardAmount++;
+							/*cardAmount++;
 							cards[cardAmount] = new Cards();
 							if (cards[cardAmount].askValue == 2) {
 								System.out.println("You drew an Ace. Use the command \"ace\" to change its value.");
 								aceAmount++;
 								break;
 							}
-							else {	
-								cardValues[cardAmount] = cards[cardAmount].cardValue;
-								int cardTotal = IntStream.of(cardValues).sum() + extra;
-								System.out.println("You drew a " + cards[cardAmount].card + " and your total is " + cardTotal + ".");
-								if (cardTotal > 21) {
-									System.out.println("Your total is over 21. You lost $" + wager + ".");
-									return 0 - wager;
-								}
-								else if (cardTotal == 21) {
-									System.out.println("Your total is 21. You win $" + wager + ".");
-									return wager;
-								}
-								else {
-									break;
-								}
+							*/
+							playerPerson.playerHit();
+							//else {	
+							if (playerPerson.playerTotal > 21) {
+								System.out.println("Your total is over 21. You lost $" + wager + ".");
+								return 0 - wager;
 							}
+							else if (playerPerson.playerTotal == 21) {
+								System.out.println("Your total is 21. You win $" + wager + ".");
+								return wager;
+							}
+							else {
+								break;
+							}
+						//	}
 						}
 					case "stay":
 						while(dealerTotal < 17) {
@@ -318,8 +321,7 @@ public class Gambling {
 							return wager;
 						} 
 						else {
-							int yourTotal = IntStream.of(cardValues).sum() + extra;
-							System.out.println("Your total is " + yourTotal + ". The dealer has " + dealerTotal + ".");
+							System.out.println("Your total is " + playerPerson.playerTotal + ". The dealer has " + dealerTotal + ".");
 							if (dealerTotal == 21) {
 								System.out.println("The dealer has 21 and wins. You lose $" + wager + ".");
 								return 0 - wager;
@@ -328,25 +330,24 @@ public class Gambling {
 								System.out.println("The dealer has more than 21. You win $" + wager + ".");
 								return wager;
 							}
-							else if ((21 - dealerTotal) < (21 - yourTotal)) {
-								System.out.println("The dealer has " + dealerTotal + " and you have " + yourTotal + ".");
+							else if ((21 - dealerTotal) < (21 - playerPerson.playerTotal)) {
+								System.out.println("The dealer has " + dealerTotal + " and you have " + playerPerson.playerTotal + ".");
 								System.out.println("You lose $" + wager + ".");
 								return 0 - wager;
 							}
-							else if (dealerTotal == yourTotal) {
+							else if (dealerTotal == playerPerson.playerTotal) {
 								System.out.println("You both have " + dealerTotal + ".");
 								System.out.println("You lose $" + wager + ".");
 								return 0 - wager;
 							}
 							else {
-								System.out.println("The dealer has " + dealerTotal + " and you have " + yourTotal + ".");
+								System.out.println("The dealer has " + dealerTotal + " and you have " + playerPerson.playerTotal + ".");
 								System.out.println("You win $" + wager + ".");
 								return wager;
 							}
 						}
 					case "total":
-						int cardTotal = IntStream.of(cardValues).sum() + extra;
-						System.out.println("Your total is " + cardTotal + ".");
+						System.out.println("Your total is " + playerPerson.playerTotal + ".");
 						System.out.println("The dealer has " + dealerMan.dealerTotal + ".");
 					}
 				}

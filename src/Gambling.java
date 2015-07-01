@@ -16,18 +16,18 @@ public class Gambling {
 		
 		System.out.println("Pick an integer, 1-4."); //Typing in a decimal will break this.
 		number = playerInput.nextShort();
-		if (0<number && number<5) {
+		if (0<number && number<5) { //checks if number is 1-4.
 			System.out.println("Wager Amount (must be an integer) :"); //Typing in a decimal will break this.
 			wager = playerInput.nextLong();
 			if (wager < 0) {
-				System.out.println("You cannot bet a negative amount.");
+				System.out.println("You cannot bet a negative amount."); //rejects negative bets
 				return 0;
 			}
 			else {
 				if (wager<=(playerMoney.getCash())) {
 					int luckyNumber = randomNumber.nextInt(4) +1;
 					if (number == luckyNumber) {
-						Thread.sleep(400);
+						Thread.sleep(400); //sleep for "realism"
 						System.out.println("You've guessed the number!");
 						Thread.sleep(400);
 						System.out.println("You win $" + wager + "!");
@@ -60,7 +60,7 @@ public class Gambling {
 		long difference;
 		String command = "";
 		
-		System.out.println("Welcome to the Gambling Place. You start with a balance of $1000.");
+		System.out.println("Welcome to the Casino. You start with a balance of $1000.");
 		Thread.sleep(200);
 		System.out.println("When you run out of money, you lose the game.");
 		Thread.sleep(200);
@@ -199,7 +199,7 @@ public class Gambling {
 		System.out.println("How much would you like to bet?");
 		long wager = playerInput.nextLong();
 		if (wager < 0) {
-			System.out.println("You can not wager nonpositive integers.");
+			System.out.println("You can not wager nonpositive integers."); //rejects negative bets
 			return 0;
 		}
 		if (wager<=(playerMoney.getCash())) {
@@ -212,6 +212,8 @@ public class Gambling {
 			
 			cards[1] = new Cards();
 			cardAmount++;
+			
+			//make this automatic in the future.
 			if (cards[1].askValue == 2) {
 				System.out.println("You have drawn an Ace. You can alter its value with the \"ace\" command.");
 				aceAmount++;

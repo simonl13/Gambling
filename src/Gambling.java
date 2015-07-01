@@ -24,7 +24,7 @@ public class Gambling {
 				return 0;
 			}
 			else {
-				if (wager<=balance) {
+				if (wager<=(playerMoney.getCash())) {
 					int luckyNumber = randomNumber.nextInt(4) +1;
 					if (number == luckyNumber) {
 						Thread.sleep(400);
@@ -45,7 +45,7 @@ public class Gambling {
 					
 				}
 				else {
-					System.out.println("You do not have $" + wager + ". You only have $" + balance + ".");
+					System.out.println("You do not have $" + wager + ". You only have $" + playerMoney.getCash() + ".");
 					return 0;
 				}
 			}
@@ -57,7 +57,6 @@ public class Gambling {
 	}
 	
 	public static void main(String[] args) throws InterruptedException {
-		long balance = 1000;
 		long difference;
 		String command = "";
 		
@@ -68,7 +67,7 @@ public class Gambling {
 		System.out.println("Let's start. Type \"help\" to start.");
 		
 		while(true) {
-			if (balance == 0) {
+			if ((playerMoney.getCash()) == 0) {
 				System.out.println("Game over. You ran out of cash.");
 				playerInput.close();
 				
@@ -81,12 +80,12 @@ public class Gambling {
 					System.out.println("Invalid command: Type \"help\" to see commands.");
 					break;
 				case "blackjack":
-					difference = blackjack(balance);
-					balance += difference;
+					difference = blackjack(playerMoney.getCash());
+					playerMoney.giveCash(difference);
 					break;
 				case "cards":
-					difference = cards(balance);
-					balance += difference;
+					difference = cards(playerMoney.getCash());
+					playerMoney.giveCash(difference);
 					break;
 				case "help":
 					System.out.println("Possible choices:");
@@ -94,24 +93,24 @@ public class Gambling {
 					System.out.println("balance, blackjack, cards, help, lottery, numbers, quit");
 					break;
 				case "balance":
-					System.out.println("Balance: $" + balance);
+					System.out.println("Balance: $" + playerMoney.getCash());
 					break;
 				case "quit":
 					System.out.println("Game Over.");
 					Thread.sleep(400);
-					System.out.println("You have $" + balance + " left.");
+					System.out.println("You have $" + playerMoney.getCash() + " left.");
 					playerInput.close();
 					System.exit(0);
 				case "cheat":
 					playerMoney.cheatCash();
 					break;
 				case "numbers":
-					difference = bet(balance);
-					balance += difference;
+					difference = bet(playerMoney.getCash());
+					playerMoney.giveCash(difference);
 					break;
 				case "lottery":
-					difference = lottery(balance);
-					balance += difference;
+					difference = lottery();
+					playerMoney.giveCash(difference);
 					break;
 				}
 			}
@@ -139,7 +138,7 @@ public class Gambling {
 		Thread.sleep(300);
 		System.out.println("What would you like to bet?");
 		wager = playerInput.nextLong();
-		if (wager<=balance) {
+		if (wager<=(playerMoney.getCash())) {
 
 			System.out.println("Choose a suit: Diamonds, Clovers, Hearts, Spades.");
 			suit = (playerInput.next()).toUpperCase();
@@ -203,7 +202,7 @@ public class Gambling {
 			System.out.println("You can not wager nonpositive integers.");
 			return 0;
 		}
-		if (wager<=balance) {
+		if (wager<=(playerMoney.getCash())) {
 			Cards cards [] = new Cards[10];
 			int cardValues [] = new int[10];
 			short cardAmount = 0;
@@ -358,13 +357,13 @@ public class Gambling {
 		
 	}
 
-	public static long lottery(long balance) {
+	public static long lottery() {
 		System.out.println("Welcome to the Lottery Place!");
 		System.out.println("Which ticket do you want to buy?");
 		System.out.println("$5, $25, $100, $1000 (Type without the dollar sign)");
 		
 		int gambleAmount = playerInput.nextInt();
-		if (gambleAmount == 5 || gambleAmount == 25 || gambleAmount == 100 || gambleAmount == 1000) {
+		if (((gambleAmount == 5 && (playerMoney.getCash() >= 5)) || ((gambleAmount == 25 && (playerMoney.getCash() >= 25)) || ((gambleAmount == 100 && (playerMoney.getCash() >= 100)) || ((gambleAmount == 1000 && (playerMoney.getCash() >= 1000))))))) {
 			System.out.println("What is your first lucky number from 1-25?");
 			int guess1 = playerInput.nextInt();
 			

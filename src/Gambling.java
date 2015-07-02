@@ -100,7 +100,7 @@ public class Gambling {
 					System.out.println("You have $" + playerMoney.getCash() + " left.");
 					playerInput.close();
 					System.exit(0);
-				case "cheat":
+				case "kevinawang":
 					playerMoney.cheatCash();
 					break;
 				case "numbers":

@@ -12,7 +12,8 @@ public class Player {
 	public int playerStart() {
 		playerCards[1] = new Cards();
 		if (playerCards[1].askValue == 2) {
-			playerCards[1].cardValue = 11;
+			playerCards[1].setValue(11);
+			playerValue[1] = playerCards[1].cardValue;
 			System.out.println("You drew an Ace. Value is 11.");
 		}
 		else {
@@ -21,21 +22,25 @@ public class Player {
 		}
 		
 		playerCards[2] = new Cards();
-		playerTotal = IntStream.of(playerValue).sum();
+		
 		if ((playerCards[2].askValue == 2) || (playerTotal > 10)) {
-			playerCards[2].cardValue = 1;
+			playerCards[2].setValue(1);
+			playerValue[2] = playerCards[2].cardValue;
+			playerTotal = IntStream.of(playerValue).sum();
 			System.out.println("You drew an Ace. Value is 1. Total is " + playerTotal + ".");
 		}
 		else {
 			playerValue[2] = playerCards[2].cardValue;
+			playerTotal = IntStream.of(playerValue).sum();
 			System.out.println("You drew a " + playerCards[2].card + ". Total is now " + playerTotal + ".");
 		}
 		
-		playerAmount++;
+		playerAmount += 2;
 		return playerTotal;
 	}
 	
 	public int playerStay() {
+		playerTotal = IntStream.of(playerValue).sum();
 		System.out.println("Player stayed. Total is still " + playerTotal + ".");
 		return playerTotal;
 	}
@@ -45,24 +50,25 @@ public class Player {
 	playerCards[playerAmount] = new Cards();
 	if (playerCards[playerAmount].askValue == 2) {
 		if (playerTotal > 10) {
-			playerCards[playerAmount].cardValue = 1;
+			playerCards[playerAmount].setValue(1);
 			playerValue[playerAmount] = playerCards[playerAmount].cardValue;
-			System.out.println("Player drew an Ace. Total is now " + (IntStream.of(playerValue).sum()) + ".");
-			playerTotal = (IntStream.of(playerValue).sum());
+			playerTotal = IntStream.of(playerValue).sum();
+			System.out.println("Player drew an Ace. Total is now " + playerTotal + ".");
 			return playerTotal;
 		}
 		else {
-			playerCards[playerAmount].cardValue = 11;
+			playerCards[playerAmount].setValue(11);
 			playerValue[playerAmount] = playerCards[playerAmount].cardValue;
-			System.out.println("Player drew an Ace. Total is now " + (IntStream.of(playerValue).sum()) + ".");
 			playerTotal = (IntStream.of(playerValue).sum());
+			System.out.println("Player drew an Ace. Total is now " + playerTotal + ".");
 			return playerTotal;
 		}
 	}
 	else {
+		//this code is broken somehow..
 		playerValue[playerAmount] = playerCards[playerAmount].cardValue;
-		System.out.println("Player has drawn a " + playerCards[playerAmount].card + ". Total is " + (IntStream.of(playerValue).sum()) + ".");
 		playerTotal = (IntStream.of(playerValue).sum());
+		System.out.println("Player has drawn a " + playerCards[playerAmount].card + ". Total is " + playerTotal + ".");
 		return playerTotal;
 	}
 	}

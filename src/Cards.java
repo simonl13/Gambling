@@ -27,4 +27,8 @@ public class Cards{
 		cardValue = Integer.parseInt(card);
 	}
 }
+
+	public void setValue(int aceValue) {
+		cardValue = aceValue;
+	}
 }

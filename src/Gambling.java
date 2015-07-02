@@ -1,7 +1,6 @@
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.stream.IntStream;
 
 public class Gambling {
 
@@ -80,11 +79,11 @@ public class Gambling {
 					System.out.println("Invalid command: Type \"help\" to see commands.");
 					break;
 				case "blackjack":
-					difference = blackjack(playerMoney.getCash());
+					difference = blackjack();
 					playerMoney.giveCash(difference);
 					break;
 				case "cards":
-					difference = cards(playerMoney.getCash());
+					difference = cards();
 					playerMoney.giveCash(difference);
 					break;
 				case "help":
@@ -105,7 +104,7 @@ public class Gambling {
 					playerMoney.cheatCash();
 					break;
 				case "numbers":
-					difference = bet(playerMoney.getCash());
+					difference = bet();
 					playerMoney.giveCash(difference);
 					break;
 				case "lottery":
@@ -203,11 +202,6 @@ public class Gambling {
 			return 0;
 		}
 		if (wager<=(playerMoney.getCash())) {
-			Cards cards [] = new Cards[10];
-			int cardValues [] = new int[10];
-			short cardAmount = 0;
-			short aceAmount = 0;
-			int extra = 0;
 			int dealerTotal;
 			
 			/*cards[1] = new Cards();
@@ -233,11 +227,11 @@ public class Gambling {
 				cardValues[2] = cards[2].cardValue;
 				System.out.println("You drew a " + cards[cardAmount].card + ".");
 			}
-			*/
-			Player.playerStart();
-			
+			*/			
 			Player playerPerson = new Player();
 			Dealer dealerMan = new Dealer();
+			
+			playerPerson.playerStart();
 			dealerTotal = dealerMan.dealerStart();
 			if (dealerTotal == 21) {
 				System.out.println("The dealer drew 21. You lose $" + wager + ".");

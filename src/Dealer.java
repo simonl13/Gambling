@@ -11,7 +11,8 @@ public class Dealer {
 	public int dealerStart() {
 		dealerCards[1] = new Cards();
 		if (dealerCards[1].askValue == 2) {
-			dealerCards[1].cardValue = 11;
+			dealerCards[1].setValue(11);
+			dealerValue[1] = dealerCards[1].cardValue;
 		}
 		else {
 			dealerValue[1] = dealerCards[1].cardValue;
@@ -20,12 +21,13 @@ public class Dealer {
 		dealerCards[2] = new Cards();
 		dealerTotal = IntStream.of(dealerValue).sum();
 		if ((dealerCards[2].askValue == 2) || (dealerTotal > 10)) {
-			dealerCards[2].cardValue = 1;
+			dealerCards[2].setValue(1);
+			dealerValue[2] = dealerCards[2].cardValue;
 		}
 		else {
 			dealerValue[2] = dealerCards[2].cardValue;
 		}
-		dealerAmount++;
+		dealerAmount += 2;
 		dealerTotal = (IntStream.of(dealerValue).sum());
 		return dealerTotal;
 	}
@@ -36,14 +38,14 @@ public class Dealer {
 		dealerCards[dealerAmount] = new Cards();
 		if (dealerCards[dealerAmount].askValue == 2) {
 			if (dealerTotal > 10) {
-				dealerCards[dealerAmount].cardValue = 1;
+				dealerCards[dealerAmount].setValue(1);
 				dealerValue[dealerAmount] = dealerCards[dealerAmount].cardValue;
 				System.out.println("Dealer drew an Ace. His total is now " + (IntStream.of(dealerValue).sum()) + ".");
 				dealerTotal = (IntStream.of(dealerValue).sum());
 				return dealerTotal;
 			}
 			else {
-				dealerCards[dealerAmount].cardValue = 11;
+				dealerCards[dealerAmount].setValue(11);
 				dealerValue[dealerAmount] = dealerCards[dealerAmount].cardValue;
 				System.out.println("Dealer drew an Ace. Total is now " + (IntStream.of(dealerValue).sum()) + ".");
 				dealerTotal = (IntStream.of(dealerValue).sum());

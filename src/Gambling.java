@@ -244,27 +244,6 @@ public class Gambling {
 					default:
 						System.out.println("Invalid command. Type \"help\" for commands.");
 						break;
-					/*case "ace":
-						if (aceAmount == 0) {
-							System.out.println("You have no Aces.");
-							break;
-						}
-						else {
-							System.out.println("You have " + aceAmount + " Aces.");
-							System.out.println("Your total is currently " + ((IntStream.of(cardValues).sum()) + extra) + ". Which value: 1 or 11?");
-							int aceValue = playerInput.nextInt();
-							if (aceValue == 1 || aceValue == 11) {
-								extra += aceValue;
-								aceAmount--;
-								System.out.println("Your total is now " + ((IntStream.of(cardValues).sum()) + extra) + ".");
-								break;
-							}
-							else {
-								System.out.println("That is not a valid value.");
-								break;
-							}
-						}
-					*/
 					case "help":
 						System.out.println("Commands: help, hit, stay, total.");
 						break;
@@ -279,16 +258,7 @@ public class Gambling {
 							return wager;
 						}
 						else {
-							/*cardAmount++;
-							cards[cardAmount] = new Cards();
-							if (cards[cardAmount].askValue == 2) {
-								System.out.println("You drew an Ace. Use the command \"ace\" to change its value.");
-								aceAmount++;
-								break;
-							}
-							*/
 							playerPerson.playerHit();
-							//else {	
 							if (playerPerson.playerTotal > 21) {
 								System.out.println("Your total is over 21. You lost $" + wager + ".");
 								return 0 - wager;
@@ -300,7 +270,6 @@ public class Gambling {
 							else {
 								break;
 							}
-						//	}
 						}
 					case "stay":
 						while(dealerTotal < 17) {

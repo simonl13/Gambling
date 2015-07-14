@@ -18,34 +18,27 @@ public class Gambling {
 		if (0<number && number<5) { //checks if number is 1-4.
 			System.out.println("Wager Amount (must be an integer) :"); //Typing in a decimal will break this.
 			wager = playerInput.nextLong();
-			if (wager < 0) {
-				System.out.println("You cannot bet a negative amount."); //rejects negative bets
+			if ((wager < 0) && wager >(playerMoney.getCash())) {
+				System.out.println("Invalid betting amount. Terminating."); //rejects negative bets
 				return 0;
 			}
 			else {
-				if (wager<=(playerMoney.getCash())) {
-					int luckyNumber = randomNumber.nextInt(4) +1;
-					if (number == luckyNumber) {
-						Thread.sleep(400); //sleep for "realism"
-						System.out.println("You've guessed the number!");
-						Thread.sleep(400);
-						System.out.println("You win $" + wager + "!");
-						difference = wager;
-						return difference;
-					}
-					else {
-						Thread.sleep(400);
-						System.out.println("The number was " + luckyNumber + ". You guessed " + number + ".");
-						Thread.sleep(400);
-						System.out.println("You've lost $" + wager + ".");
-						difference = 0 - wager;
-						return difference;
-					}
-					
+				int luckyNumber = randomNumber.nextInt(4) +1;
+				if (number == luckyNumber) {
+					Thread.sleep(400); //sleep for "realism"
+					System.out.println("You've guessed the number!");
+					Thread.sleep(400);
+					System.out.println("You win $" + wager + "!");
+					difference = wager;
+					return difference;
 				}
 				else {
-					System.out.println("You do not have $" + wager + ". You only have $" + playerMoney.getCash() + ".");
-					return 0;
+					Thread.sleep(400);
+					System.out.println("The number was " + luckyNumber + ". You guessed " + number + ".");
+					Thread.sleep(400);
+					System.out.println("You've lost $" + wager + ".");
+					difference = 0 - wager;
+					return difference;
 				}
 			}
 		}
@@ -55,15 +48,14 @@ public class Gambling {
 		}
 	}
 	
-	public static void main(String[] args) throws InterruptedException {
+	
+	public static void Game() {
 		long difference;
 		String command = "";
 		
 		System.out.println("Welcome to the Casino. You start with a balance of $1000.");
-		Thread.sleep(200);
 		System.out.println("When you run out of money, you lose the game.");
-		Thread.sleep(200);
-		System.out.println("Let's start. Type \"help\" to start.");
+		System.out.println("Let's start. Type \"help\" for commands.");
 		
 		while(true) {
 			if ((playerMoney.getCash()) == 0) {
@@ -75,49 +67,47 @@ public class Gambling {
 			else {
 				command = playerInput.next();
 				switch (command) {
-				default:
-					System.out.println("Invalid command: Type \"help\" to see commands.");
-					break;
-				case "blackjack":
-					difference = blackjack();
-					playerMoney.giveCash(difference);
-					break;
-				case "cards":
-					difference = cards();
-					playerMoney.giveCash(difference);
-					break;
-				case "help":
-					System.out.println("Possible choices:");
-					Thread.sleep(200);
-					System.out.println("balance, blackjack, cards, help, lottery, numbers, quit");
-					break;
-				case "balance":
-					System.out.println("Balance: $" + playerMoney.getCash());
-					break;
-				case "quit":
-					System.out.println("Game Over.");
-					Thread.sleep(400);
-					System.out.println("You have $" + playerMoney.getCash() + " left.");
-					playerInput.close();
-					System.exit(0);
-				case "kevinawang":
-					playerMoney.cheatCash();
-					break;
-				case "numbers":
-					difference = bet();
-					playerMoney.giveCash(difference);
-					break;
-				case "lottery":
-					difference = lottery();
-					playerMoney.giveCash(difference);
-					break;
+					default:
+						System.out.println("Invalid command: Type \"help\" to see commands.");
+						break;
+					case "blackjack":
+						difference = blackjack();
+						playerMoney.giveCash(difference);
+						break;
+					case "cards":
+						difference = cards();
+						playerMoney.giveCash(difference);
+						break;
+					case "help":
+						System.out.println("Possible choices:");
+						System.out.println("balance, blackjack, cards, help, lottery, numbers, quit");
+						break;
+					case "balance":
+						System.out.println("Balance: $" + playerMoney.getCash());
+						break;
+					case "quit":
+						System.out.println("Game Over.");
+						System.out.println("You have $" + playerMoney.getCash() + " left.");
+						
+						playerInput.close();
+						System.exit(0);
+					//case "cheat": (for debug purposes)
+					//	playerMoney.cheatCash();
+					//	break;
+					case "numbers":
+						difference = bet();
+						playerMoney.giveCash(difference);
+						break;
+					case "lottery":
+						difference = lottery();
+						playerMoney.giveCash(difference);
+						break;
 				}
 			}
 		}
 	}
 
 	public static long cards() throws InterruptedException {
-		long difference = 0;
 		String suit;
 		String [] suitList = { "DIAMONDS", "CLOVERS", "HEARTS", "SPADES"};
 		String [] cardList = { "ACE", "2", "3", "4", "5", "6", "7", "8", "9", "10", "JACK", "QUEEN", "KING" };
@@ -130,11 +120,8 @@ public class Gambling {
 		long wager;
 		
 		System.out.println("Welcome to Card Guessing!");
-		Thread.sleep(400);
 		System.out.println("If you get either the suit or the number right, you win half your bet.");
-		Thread.sleep(300);
 		System.out.println("If you get both right, you win your bet.");
-		Thread.sleep(300);
 		System.out.println("What would you like to bet?");
 		wager = playerInput.nextLong();
 		if (wager<=(playerMoney.getCash())) {
@@ -162,20 +149,18 @@ public class Gambling {
 		
 					if (correctSuit == 2 && correctCard == 2) {
 						System.out.println("You guessed correct! Here's your $" + wager + ".");
-						difference = wager;
+						return wager;
 					}
 					else if (correctSuit == 2 || correctCard == 2) {
 						System.out.println("The card was a " + luckySuit + " " + luckyCard + ".");
 						System.out.println("You win $" + wager/2 + ".");
-						difference = wager/2;
+						return wager/4;
 					}
 					else {
 						System.out.println("The card was a " + luckySuit + " " + luckyCard + ".");
 						System.out.println("You lose $" + wager + ".");
-						difference = 0 - wager;
+						return 0 - wager;
 					}
-		
-					return difference;
 				}
 				else {
 					System.out.println("That is not a card.");
@@ -196,38 +181,17 @@ public class Gambling {
 	public static long blackjack() throws InterruptedException {
 		System.out.println("Welcome to Blackjack!");
 		System.out.println("How much would you like to bet?");
+		
 		long wager = playerInput.nextLong();
-		if (wager < 0) {
-			System.out.println("You can not wager nonpositive integers."); //rejects negative bets
+		
+		if ((wager < 0) || wager <= playerMoney.getCash())) {
+			System.out.println("That is not a valid wager. Terminating."); //rejects negative bets
 			return 0;
 		}
-		if (wager<=(playerMoney.getCash())) {
+		
+		else {
 			int dealerTotal;
-			
-			/*cards[1] = new Cards();
-			cardAmount++;
-			
-			//make this automatic in the future.
-			if (cards[1].askValue == 2) {
-				System.out.println("You have drawn an Ace. You can alter its value with the \"ace\" command.");
-				aceAmount++;
-			}
-			else {
-				cardValues[1] = cards[1].cardValue;
-				System.out.println("You drew a " + cards[cardAmount].card + ".");
-			}
-			
-			cards[2] = new Cards();
-			cardAmount++;
-			if (cards[2].askValue == 2) {
-				System.out.println("You have drawn an Ace. You can alter its value with the \"ace\" command.");
-				aceAmount++;
-			}
-			else {
-				cardValues[2] = cards[2].cardValue;
-				System.out.println("You drew a " + cards[cardAmount].card + ".");
-			}
-			*/			
+					
 			Player playerPerson = new Player();
 			Dealer dealerMan = new Dealer();
 			
@@ -316,11 +280,6 @@ public class Gambling {
 				}
 			}
 		}
-		else {
-			System.out.println("You do not have $" + wager + ".");
-			return 0;
-		}
-		
 	}
 
 	public static long lottery() {
@@ -372,5 +331,9 @@ public class Gambling {
 			System.out.println("That is not a valid ticket amount.");
 			return 0;
 		}
+	}
+	
+	public static void main(String[] args) throws InterruptedException {
+		Game gambling = new Game();
 	}
 }
